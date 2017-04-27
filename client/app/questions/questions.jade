@@ -1,0 +1,49 @@
+navbar
+.container
+	.panel.panel-primary
+		.panel-heading Add a New Question
+		.panel-body
+			.col-md-12
+				.input-group
+					span.input-group-addon Question Name
+					input.form-control(placeholder="Question Name" type="text" ng-model="name")
+			.col-md-6
+				.input-group
+					span.input-group-addon Type
+					select.form-control(ng-model="type")
+						option(value="rate") Rate
+						option(value="comment") Comment
+						option(value="yesno") Yes/No
+					span.input-group-addon Section
+					select.form-control(ng-model="section")
+						option(value="Training") Training
+						option(value="Trainer") Trainer
+						option(value="Facility") Facility
+						option(value="Additional") Additional
+		button.btn.btn-success(ng-click='addQuestion()') Add Question
+	.panel.panel-primary
+		.panel-heading Questions
+		.panel-body
+			table.table.table-hover
+				thead
+					tr
+						th
+						th Question Name
+						th Section
+						th Type
+				tbody(ng-repeat="question in questions | orderBy: '-section'")
+					tr
+						td
+							input(type="checkbox" ng-model="question.show" ng-checked="question.show" ng-change="toggleSelected(question)")
+						td {{question.name}}
+						td(ng-class="{success:{{question.section=='Training'}}, danger:{{question.section=='Trainer'}}, warning:{{question.section=='Facility'}}}") {{question.section}}
+						td 
+							span(ng-class="{'glyphicon glyphicon-star': {{question.type=='rate'}}, 'glyphicon glyphicon-comment': {{question.type=='comment'}}, 'glyphicon glyphicon-transfer': {{question.type=='yesno'}}}")
+							| ({{question.type}})
+						td
+							button.btn-link.trash(ng-click='deleteQuestion(question)')
+								span.glyphicon.glyphicon-trash.pull-right
+
+
+
+

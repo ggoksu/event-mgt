@@ -1,0 +1,28 @@
+div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
+  div.container
+    div.navbar-header
+      button.navbar-toggle(type='button', ng-click='isCollapsed = !isCollapsed')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      img(src="assets/images/Oracle.png")
+      img(src="assets/images/ph.png")
+      img(src="assets/images/web-divider.png")
+
+    div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+      ul.nav.navbar-nav
+        li(ng-show='isAdmin()', ui-sref-active='active')
+          a(ui-sref='admin') PH Admin
+        li(ng-show='isAdmin()' ng-repeat='item in menu', ui-sref-active='active')
+          a(ui-sref='{{item.state}}') {{item.title}}
+      ul.nav.navbar-nav.navbar-right
+        li(ng-show='isLoggedIn()')
+          p.navbar-text Hello {{ getCurrentUser().name }}
+
+        li(ng-show='isLoggedIn()', ui-sref-active='active')
+          a(ui-sref='settings')
+            span.glyphicon.glyphicon-cog
+
+        li(ng-show='isLoggedIn()')
+          a(ui-sref='logout') Logout

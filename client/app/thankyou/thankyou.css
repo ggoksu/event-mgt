@@ -1,0 +1,4 @@
+li a, li a:hover {
+  color: grey;
+  text-decoration: none; /* no underline */
+}

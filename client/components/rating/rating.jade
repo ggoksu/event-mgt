@@ -1,0 +1,7 @@
+div.rating
+	.col-md-6.nopadding
+		a.btn-link(ng-repeat="star in stars" ng-click="setRating($index)" ng-mouseover="hover($index)" ng-mouseleave="stopHover()" ng-class="starColor($index)")
+			i.fa(ng-class="starClass(star, $index)")
+	.col-md-3
+		span 
+			small {{rate}} / {{max}}

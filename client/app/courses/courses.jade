@@ -1,0 +1,50 @@
+navbar
+.container
+	.panel.panel-primary
+		.panel-heading Add a New Course
+		.panel-body
+			.col-md-6
+				.input-group
+					span.input-group-addon Course
+					input.form-control(placeholder="Course Name" type="text" ng-model="courseName")
+				.input-group
+					span.input-group-addon Trainer
+					input.form-control(placeholder="Trainer" type="text" ng-model="trainer" typeahead="trainer.data for trainer in trainers |filter:$viewValue")
+				.input-group
+					span.input-group-addon Location
+					input.form-control(placeholder="Location" type="text" ng-model="where" typeahead="location.data for location in locations |filter:$viewValue")
+			.col-md-6
+				.input-group
+					span.input-group-addon Start Date
+					input#dpd1.form-control(type="text" ng-model="startDate" data-date-format="dd-mm-yyyy" data-date-weekStart="1")
+				.input-group
+					span.input-group-addon End Date
+					input#dpd2.form-control(type="text" ng-model="endDate" data-date-format="dd-mm-yyyy" data-date-weekStart="1")
+		button.btn.btn-success(ng-click='addCourse()') Add Course
+	.panel.panel-primary
+		.panel-heading Courses
+		input.form-control(type="text" placeholder="Filter Courses..." ng-model="searchCourse")
+		.panel-body
+			table.table.table-hover
+				thead
+					tr
+						th Feedback
+						th Course Name
+						th Date
+						th Trainer
+						th Location
+				tbody(ng-repeat="course in courses | orderBy:sortType:sortReverse | filter:searchCourse")
+					tr
+						td
+							button.btn-link(ng-click="go2Forms('forms', {obj : course})")
+								span.glyphicon.glyphicon-list-alt 
+						td
+							a(ui-sref="main({course: '{{course._id}}'})") {{course.name}}
+						td {{course.begins |date : 'MMM d'}} - {{course.ends |date}}
+						td {{course.trainer}}
+						td {{course.where}}
+						//feedback form loses link to course if course is deleted!!
+						//td
+						//	button.btn-link.trash(ng-click='deleteCourse(course)')
+						//		span.glyphicon.glyphicon-trash.pull-right
+script(src="assets/javascripts/utils.js")

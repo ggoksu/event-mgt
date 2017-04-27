@@ -1,0 +1,16 @@
+td {
+    -webkit-transition: all 2s 1.5s ease-out;
+    -moz-transition: all 1.5s ease-out;
+    transition: all 1.5s ease-out;
+    
+    list-style: none;
+    padding: 10px;
+}
+	
+
+.highlight-enter-setup {
+    background: yellow;
+}
+.highlight-enter-start {
+    background: white;
+}

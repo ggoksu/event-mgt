@@ -1,0 +1,10 @@
+navbar
+.container(ng-show="isAdmin()")
+	.panel.panel-primary
+		.panel-heading Admin Panel
+		.panel-body
+			.row
+				.col-md-12
+					ul.list-group
+						li.list-group-item(ng-repeat='item in menu')
+							button.btn.btn-link.btn-block(ui-sref="{{item.state}}") {{item.title}}

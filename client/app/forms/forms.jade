@@ -1,0 +1,87 @@
+navbar
+.container
+	.col-md-12
+		.panel.panel-default
+			.panel-body
+				.col-md-5
+					div
+						h3 {{courseName}}
+					div
+						span.fa.fa-user.spacer
+						span {{courseTrainer}}
+					div
+						span.fa.fa-calendar.spacer
+						span {{courseBegins |date}} - {{courseEnds |date}}
+					div
+						span.fa.fa-building.spacer
+						span {{courseWhere}}
+				.col-lg-4
+					canvas.chart.chart-bar(chart-data="data" chart-labels="labels" chart-series="series")
+				.col-md-3
+					table.table
+						tr.borderless
+							td
+								h4
+									span.label.label-info Participants
+							td
+								h3 {{numberOfParticipants}} 
+						tr.borderless
+							td
+								h4
+									span.label.label-success Training Avg.
+							td
+								h3 {{avgTraining | number : 2}}
+						tr.borderless
+							td
+								h4
+									span.label.label-primary Trainer Avg.
+							td
+								h3 {{avgTrainer | number : 2}}
+						tr.borderless
+							td
+								h4
+									span.label.label-warning Facility Avg.
+							td
+								h3 {{avgFacility | number : 2}}
+	.col-md-12
+		.panel.panel-default
+			.panel-heading
+				span
+					p Participants & Comments
+				span
+					.col-xs-6
+						p
+							input.input-sm.form-control(type="text" placeholder="Filter Feedback Forms..." ng-model="searchForm")
+			.panel-body
+				div(ng-repeat="participant in participants | filter:searchForm")
+					.panel.panel-default
+						.panel-body
+							.participant-header.list-group-item
+								div
+									span.fa.fa-user.spacer
+									span.spacer {{participant.name}}
+								div
+									span.fa.fa-envelope.spacer
+									a.spacer(href="mailto: {{participant.email}}") {{participant.email}}
+								div
+									span.fa.fa-phone.spacer
+									span.spacer {{participant.phone}}
+								div
+									span.fa.fa-briefcase.spacer
+									span {{participant.title}} in {{participant.company}}
+							div
+								span
+									span.label.label-success Training
+									span.label.label-success {{participant.partAvgTraining |number : 2}}
+									li.list-group-item.bordershadow.padding(ng-if="participant.trainingComments.length" ng-repeat="trainingComment in participant.trainingComments") {{trainingComment}}
+								span
+									span.label.label-primary Trainer
+									span.label.label-primary {{participant.partAvgTrainer |number : 2}}
+									li.list-group-item.bordershadow.padding(ng-if="participant.trainerComments.length" ng-repeat="trainerComment in participant.trainerComments") {{trainerComment}}
+								span
+									span.label.label-warning Facility
+									span.label.label-warning {{participant.partAvgFacility |number : 2}}
+									li.list-group-item.bordershadow.padding(ng-if="participant.facilityComments.length" ng-repeat="facilityComment in participant.facilityComments") {{facilityComment}}
+								span(ng-if="participant.additionalComments.length")
+									span.label.label-info Additional
+									li.list-group-item.bordershadow.padding(ng-repeat="additionalComment in participant.additionalComments") {{additionalComment}}

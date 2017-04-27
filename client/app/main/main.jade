@@ -1,0 +1,119 @@
+navbar
+.container
+	.panel.panel-primary
+		.panel-heading Course Information
+		.panel-body
+			.row
+				.col-md-6
+					h4
+						p
+							strong {{course.name}}
+						p
+							| {{course.where}}
+						p
+							| {{course.begins | date}} / {{course.ends | date}}
+				.col-md-6
+					h4.text-right
+						strong Trainer
+						|  : {{course.trainer}}
+	.panel.panel-primary
+		.panel-heading Katılımcı Bilgisi / Participant Information (* Gerekli alanlar / Required Fields)
+		.panel-body
+			form(role="form" name="feedbackForm" novalidate)
+				.col-md-6
+					.input-group
+						span.input-group-addon İsim / Name *
+						input.form-control(type="text" name="name" ng-model="fname" placeholder="Name" required)
+					.input-group
+						span.input-group-addon Soyisim / Last Name *
+						input.form-control(type="text" name="lname" ng-model="lname" placeholder="Last Name" required)
+					.input-group
+						span.input-group-addon Telefon / Phone
+						input.form-control(type="text" ng-model="phone" ui-mask="0(999) 999-99 99" ui-mask-placeholder-char="_")
+				.col-md-6
+					.input-group(ng-class="{ 'has-error' : feedbackForm.email.$invalid && !feedbackForm.email.$pristine }")
+						span.input-group-addon Email *
+						input.form-control(placeholder="Email" name="email" type="email" ng-pattern="emailVal" ng-model="email" required)
+					.input-group
+						span.input-group-addon Şirket / Company *
+						input.form-control(placeholder="Company" name="company" type="text" ng-model="company" required)
+					.input-group
+						span.input-group-addon Meslek / Job Title
+						input.form-control(placeholder="Job Title" type="text" ng-model="title")
+				.col-md-12
+					.alert.alert-danger(ng-show="feedbackForm.name.$invalid && !feedbackForm.name.$pristine")
+						p Gerekli Alan : İsim / Required Field : Name
+					.alert.alert-danger(ng-show="feedbackForm.lname.$invalid && !feedbackForm.lname.$pristine")
+						p Gerekli Alan : Soyisim / Required Field : Last Name
+					.alert.alert-danger(ng-show="feedbackForm.company.$invalid && !feedbackForm.company.$pristine")
+						p Gerekli Alan : Şirket / Required Field : Company
+	.panel.panel-primary
+		.panel-heading Eğitim Değerlendirmesi / Training Evaluation
+		.panel-body
+			table.table.table-striped
+				tbody
+					tr(ng-repeat="question in questions track by $index | orderBy:'-type'" ng-if="question.section=='Training'")
+						td.col-md-6 {{question.name}}
+						td.col-md-6
+							span(ng-if="question.type=='rate'")
+								div.nopadding(formrating rate="models[$index]" max="5")
+							span(ng-if="question.type=='comment'")
+								textarea.form-control(rows="4" cols="100" placeholder="Comment..." ng-model="models[$index]")
+							span(ng-if="question.type=='yesno'")
+								.btn-group
+									button.btn.btn-default(ng-click="yesno($index, true)" ng-class="{'btn-primary' : $index == btnYes[$index]}") Yes
+									button.btn.btn-default(ng-click="yesno($index, false)" ng-class="{'btn-primary' : $index == btnNo[$index]}") No
+	.panel.panel-primary
+		.panel-heading Eğitmen Değerlendirmesi / Trainer Evaluation
+		.panel-body
+			table.table.table-striped
+				tbody
+					tr(ng-repeat="question in questions track by $index | orderBy:'-type'" ng-if="question.section=='Trainer'")
+						td.col-md-6 {{question.name}}
+						td.col-md-6
+							span(ng-if="question.type=='rate'")
+								div(formrating rate="models[$index]" max="5")
+							span(ng-if="question.type=='comment'")
+								textarea.form-control(rows="4" cols="100" placeholder="Comment..." ng-model="models[$index]")
+							span(ng-if="question.type=='yesno'")
+								.btn-group
+									button.btn.btn-default(ng-click="yesno($index, true)" ng-class="{'btn-primary' : $index == btnYes[$index]}") Yes
+									button.btn.btn-default(ng-click="yesno($index, false)" ng-class="{'btn-primary' : $index == btnNo[$index]}") No
+	.panel.panel-primary
+		.panel-heading Eğitim Merkezi Değerlendirmesi / Training Center Evaluation
+		.panel-body
+			table.table.table-striped
+				tbody
+					tr(ng-repeat="question in questions track by $index | orderBy:'-type' " ng-if="question.section=='Facility'")
+						td.col-md-6 {{question.name}}
+						td.col-md-6
+							span(ng-if="question.type=='rate'")
+								div(formrating rate="models[$index]" max="5")
+							span(ng-if="question.type=='comment'")
+								textarea.form-control(rows="4" cols="100" placeholder="Comment..." ng-model="models[$index]")
+							span(ng-if="question.type=='yesno'")
+								.btn-group
+									button.btn.btn-default(ng-click="yesno($index, true)" ng-class="{'btn-primary' : $index == btnYes[$index]}") Yes
+									button.btn.btn-default(ng-click="yesno($index, false)" ng-class="{'btn-primary' : $index == btnNo[$index]}") No
+	.panel.panel-primary(ng-if="showAdditional")
+		.panel-heading Diğer Sorular / Additional Questions
+		.panel-body
+			table.table.table-striped
+				tbody
+					tr(ng-repeat="question in questions track by $index" ng-if="question.section=='Additional'")
+						td.col-md-6 {{question.name}}
+						td.col-md-6
+							span(ng-if="question.type=='rate'")
+								div(formrating rate="models[$index]" max="5" ng-model="comment")
+							span(ng-if="question.type=='comment'")
+								textarea.form-control(rows="4" cols="100" placeholder="Comment..." ng-model="models[$index]")
+							span(ng-if="question.type=='yesno'")
+								.btn-group
+									button.btn.btn-default(ng-click="yesno($index, true)" ng-class="{'btn-primary' : $index == btnYes[$index]}") Yes
+									button.btn.btn-default(ng-click="yesno($index, false)" ng-class="{'btn-primary' : $index == btnNo[$index]}") No
+	toaster-container
+	.alert.alert-danger(ng-show="unRatedQs.length")
+		p Lütfen eksik bilgileri doldurunuz / Please fill in the missing information
+		ul
+			li(ng-repeat="q in unRatedQs") {{q.name}}
+	button.btn.btn-success.btn-block.spacebelow(ng-click="submit()" ng-disabled="feedbackForm.$invalid") Submit

@@ -1,0 +1,13 @@
+.alert-danger{
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.noInput {
+	border: 2px solid red;
+}
+
+.spacebelow {
+	margin-bottom: 50px;
+}
